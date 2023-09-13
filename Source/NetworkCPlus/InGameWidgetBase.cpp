@@ -41,8 +41,6 @@ void UInGameWidgetBase::OnChangedText(const FText& Text)
 
 void UInGameWidgetBase::OnCommitedText(const FText& Text, ETextCommit::Type CommitMethod)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Send Message"));
-
 	switch (CommitMethod)
 	{
 		case ETextCommit::OnEnter:
@@ -54,6 +52,8 @@ void UInGameWidgetBase::OnCommitedText(const FText& Text, ETextCommit::Type Comm
 				UMyGameInstance* GI = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 				if (GI)
 				{
+					UE_LOG(LogTemp, Warning, TEXT("Send Message"));
+
 					FString Temp = FString::Printf(TEXT("%s : %s"), *GI->Username, *Text.ToString());
 					//Client -> Server로 전송
 					PC->C2S_SendMessage(FText::FromString(Temp));
@@ -68,4 +68,16 @@ void UInGameWidgetBase::StartGame()
 {
 	//다함께 맵 이동
 	GetWorld()->ServerTravel(TEXT("InGame"));
+}
+
+void UInGameWidgetBase::AddMessage(FText const& Message)
+{
+	UTextBlock* NewChat = NewObject<UTextBlock>();
+	if (NewChat)
+	{
+		NewChat->SetText(Message);
+		NewChat->Font.Size = 18;
+		ChatScroll->AddChild(NewChat);
+		ChatScroll->ScrollToEnd();
+	}
 }

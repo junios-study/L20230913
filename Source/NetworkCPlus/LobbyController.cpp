@@ -2,6 +2,7 @@
 
 
 #include "LobbyController.h"
+#include "InGameWidgetBase.h"
 
 void ALobbyController::BeginPlay()
 {
@@ -18,9 +19,31 @@ void ALobbyController::BeginPlay()
 
 bool ALobbyController::C2S_SendMessage_Validate(FText const& Message)
 {
-    return false;
+    //메세지 검증
+    return true;
 }
 
 void ALobbyController::C2S_SendMessage_Implementation(FText const& Message)
 {
+    UE_LOG(LogTemp, Warning, TEXT("server : %s"), *Message.ToString());
+    //Find All PC
+    for (auto Iter = GetWorld()->GetPlayerControllerIterator(); Iter; ++Iter)
+    {
+        ALobbyController* PC = Cast<ALobbyController>(*Iter);
+        if (PC)
+        {
+            PC->S2C_SendMessage(Message);
+        }
+    }
+
+}
+
+void ALobbyController::S2C_SendMessage_Implementation(FText const& Message)
+{
+    //UI 메세지 추가
+    UInGameWidgetBase* Widget = Cast<UInGameWidgetBase>(InGameWidget);
+    if (Widget)
+    {
+        Widget->AddMessage(Message);
+    }
 }

@@ -22,4 +22,11 @@ public:
 	void C2S_SendMessage(FText const& Message);
 	bool C2S_SendMessage_Validate(FText const& Message);
 	void C2S_SendMessage_Implementation(FText const& Message);
+
+	UFUNCTION(Client, Reliable)
+	void S2C_SendMessage(FText const& Message);
+	void S2C_SendMessage_Implementation(FText const& Message);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UUserWidget* InGameWidget;
 };

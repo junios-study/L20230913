@@ -38,6 +38,9 @@ public:
 
 	UFUNCTION()
 	void StartGame();
+
+
+	void AddMessage(FText const& Message);
 	
 
 
