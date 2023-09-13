@@ -13,5 +13,10 @@ UCLASS()
 class NETWORKCPLUS_API ALobbyGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+public:
+	ALobbyGameMode();
+	virtual void Tick(float DeltaTime) override;
+
+
+	float ElapsedTime = 0;
 };

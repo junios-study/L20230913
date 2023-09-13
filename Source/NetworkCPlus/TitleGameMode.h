@@ -13,5 +13,6 @@ UCLASS()
 class NETWORKCPLUS_API ATitleGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+
 	
 };
